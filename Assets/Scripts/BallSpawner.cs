@@ -12,9 +12,22 @@ namespace Assets.Scripts
         }
 	
         // Update is called once per frame
-        void Update () {
-            if (Input.GetKeyDown(KeyCode.Space))
-                Instantiate(BallPrefab);
+        void Update ()
+        {
+            const float velocityMultiplier = 5.0f;
+
+            if (Input.GetKeyDown(KeyCode.Space)) InstantiateBall(Vector3.down * velocityMultiplier); 
+            if (Input.GetKeyDown(KeyCode.UpArrow)) InstantiateBall(Vector3.forward * velocityMultiplier);
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) InstantiateBall(Vector3.left * velocityMultiplier);
+            if (Input.GetKeyDown(KeyCode.RightArrow)) InstantiateBall(Vector3.right * velocityMultiplier);
+            if (Input.GetKeyDown(KeyCode.DownArrow)) InstantiateBall(Vector3.back * velocityMultiplier);
+        }
+
+        private void InstantiateBall(Vector3 velocity)
+        {
+            var instance = Instantiate(BallPrefab);
+            var rigidBody = instance.GetComponent<Rigidbody>();
+            rigidBody.velocity = velocity;
         }
     }
 }
