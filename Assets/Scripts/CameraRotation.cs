@@ -4,8 +4,11 @@ namespace Assets.Scripts
 {
     public class CameraRotation : MonoBehaviour
     {
+        private Camera _camera;     
+
         // Use this for initialization
         void Start () {
+            _camera = GetComponentInChildren<Camera>();
         }
 	
         // Update is called once per frame
@@ -20,11 +23,8 @@ namespace Assets.Scripts
             var mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
             var mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
 
-            var quaternion = string.Equals(name, "Main Camera") //if object is the main camera (or head)
-                ? Quaternion.Euler(-mouseY, 0, 0)                    //rotate only the camera/head on y axis
-                : Quaternion.Euler(0, mouseX, 0);                    //otherwise, rotate entire person on x
-
-            transform.rotation *= quaternion;
+            transform.localRotation *= Quaternion.Euler(0, mouseX, 0);
+            _camera.transform.localRotation *= Quaternion.Euler(-mouseY, 0, 0);
         }
     }
 }
