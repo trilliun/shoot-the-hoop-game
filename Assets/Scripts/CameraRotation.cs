@@ -16,7 +16,15 @@ namespace Assets.Scripts
 
         private void RotateCamera()
         {
-            transform.rotation *= Quaternion.Euler(0, 1, 0); 
+            const float rotationSpeed = 5.0f;
+            var mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
+            var mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
+
+            var quaternion = string.Equals(name, "Main Camera") //if object is the main camera (or head)
+                ? Quaternion.Euler(-mouseY, 0, 0)                    //rotate only the camera/head on y axis
+                : Quaternion.Euler(0, mouseX, 0);                    //otherwise, rotate entire person on x
+
+            transform.rotation *= quaternion;
         }
     }
 }
